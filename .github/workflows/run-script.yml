@@ -31,7 +31,7 @@ jobs:
           python main.py
       - name: Save hash file
         run: |
-          echo "${{ hash_object.hexdigest() }}" > previous_hash.txt
+          echo "$(cat previous_hash.txt)" > previous_hash.txt
         artifact:
           paths:
             - previous_hash.txt
