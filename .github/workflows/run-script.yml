@@ -1,7 +1,7 @@
 name: Update bounties list
 on:
   schedule:
-    - cron: '*/10 11-24 * * *'
+    - cron: "*/1 11-23 * * *"
   workflow_dispatch:
 
 jobs:
