@@ -1,4 +1,4 @@
-name: Update bounties list
+name: push-notification
 on:
   schedule:
     - cron: "*/1 11-23 * * *"
