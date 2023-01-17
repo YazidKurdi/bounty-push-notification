@@ -1,7 +1,7 @@
 name: push-notification
 on:
   schedule:
-    - cron: "/2 11-23 * * *"
+    - cron: "*/2 11-23 * * *"
   workflow_dispatch:
 
 jobs:
