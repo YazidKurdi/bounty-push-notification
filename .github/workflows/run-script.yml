@@ -24,6 +24,7 @@ jobs:
       - name: Run Script
         env:
           PUSH_BULLET: ${{ secrets.PUSH_BULLET }}
+          GIT_API: ${{ secrets.GIT_API }}
         run: |
           python main.py
       - name: Commit and Push Changes
