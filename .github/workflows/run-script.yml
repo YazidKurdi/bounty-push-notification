@@ -20,18 +20,16 @@ jobs:
 
       - name: Install Dependencies
         run: pip install -r requirements.txt
-      - name: Download hash file
-        uses: actions/download-artifact@v2
-        with:
-          name: hash_file
+
       - name: Run Script
         env:
           PUSH_BULLET: ${{ secrets.PUSH_BULLET }}
         run: |
           python main.py
-      - name: Save hash file
+      - name: Commit and Push Changes
         run: |
-          echo "$(cat previous_hash.txt)" > previous_hash.txt
-        artifact:
-          paths:
-            - previous_hash.txt
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add previous_hash.txt
+          git commit -m "Updated hash on `date` with GitHub Actions" || echo "No Changes to Commit"
+          git push origin master || echo "No Changes to Commit"
