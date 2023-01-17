@@ -4,7 +4,13 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from push_bullet import push_notification
+from github import Github
 
+# Authenticate yourself
+g = Github("YazidKurdi", os.getenv("GIT_API"))
+
+# Find your repository and path of README.md
+repo = g.get_user().get_repo("bounty-push-notification")
 
 def run_script():
 
@@ -12,11 +18,11 @@ def run_script():
     url = 'https://replit.com/bounties?order=creationDateDescending'
 
     # check if previous hash file exist
-    if os.path.exists("previous_hash.txt"):
-        with open("previous_hash.txt", "r") as f:
-            previous_hash = f.read()
-    else:
-        previous_hash = None
+    try:
+        file = repo.get_contents("previous_hash.txt")
+        previous_hash = file.decoded_content.decode()
+    except:
+        pass
 
     # Make an HTTP GET request to the webpage
     response = requests.get(url)
@@ -36,12 +42,14 @@ def run_script():
 
     # Compare the current hash with the previous hash
     if current_hash != previous_hash:
-        # print(f"Webpage has been updated! {datetime.now().time()}")
         push_notification("New Bounty!",fifth_li.text)
 
-        # Store the current hash as the previous hash for the next comparison
-        with open("previous_hash.txt", "w") as f:
-            f.write(current_hash)
+        # The new contents of your README.md
+        previous_hash = current_hash
+
+        # Update README.md
+        repo.update_file("previous_hash.txt", "commit message", previous_hash, file.sha)
+
     else:
         print(f"Webpage has not been updated. {datetime.now().time()}")
 
