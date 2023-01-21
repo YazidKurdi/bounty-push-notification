@@ -34,7 +34,7 @@ def run_script():
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Find the 5th <li> element on the page
-    fifth_li = soup.find_all('li')[4].find("h3")
+    fifth_li = soup.find_all('li')[9].find("h3")
 
     # Calculate the hash of the HTML content
     hash_object = hashlib.sha1(fifth_li.encode())
