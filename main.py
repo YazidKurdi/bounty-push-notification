@@ -33,22 +33,22 @@ def run_script():
     # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
 
-    # Find the 5th <li> element on the page
-    fifth_li = soup.find_all('li')[9].find("h3")
+    # Find the 1st <li> element on the page with class "css-1obxggb"
+    first_li = soup.find("li",class_="css-1obxggb")
+    notification_text = soup.find("li",class_="css-1obxggb").find("h3").text
 
     # Calculate the hash of the HTML content
-    hash_object = hashlib.sha1(fifth_li.encode())
+    hash_object = hashlib.sha1(first_li.encode())
     current_hash = hash_object.hexdigest()
 
     # Compare the current hash with the previous hash
     if current_hash != previous_hash:
-        push_notification("New Bounty!",fifth_li.text)
+        push_notification("New Bounty!",notification_text)
 
         # The new contents of your README.md
-        previous_hash = current_hash
 
         # Update README.md
-        repo.update_file("previous_hash.txt", "commit message", previous_hash, file.sha)
+        repo.update_file("previous_hash.txt", "commit message", current_hash, file.sha)
 
     else:
         print(f"Webpage has not been updated. {datetime.now().time()}")
