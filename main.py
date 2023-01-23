@@ -34,8 +34,7 @@ def run_script():
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Find the 1st <li> element on the page with class "css-1obxggb"
-    first_li = soup.find("li",class_="css-1obxggb")
-    notification_text = soup.find("li",class_="css-1obxggb").find("h3").text
+    first_li = soup.find("li",class_="css-1obxggb").find("h3").text
 
     # Calculate the hash of the HTML content
     hash_object = hashlib.sha1(first_li.encode())
@@ -43,7 +42,7 @@ def run_script():
 
     # Compare the current hash with the previous hash
     if current_hash != previous_hash:
-        push_notification("New Bounty!",notification_text)
+        push_notification("New Bounty!",first_li)
 
         # The new contents of your README.md
 
